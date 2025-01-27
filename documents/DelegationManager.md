@@ -2,6 +2,8 @@
 
 A Delegation Manager is responsible for validating delegations and triggering the action to be taken on behalf of the delegator.
 
+This contract does not implement ERC7579 see [ERC-7579 Details](/documents/PartialERC7579.md).
+
 ## Rules
 
 - A Delegation Manager MUST implement `redeemDelegation` interface as specified `function redeemDelegation(bytes[] calldata _permissionContexts, ModeCode[] _modes, bytes[] calldata _executionCallDatas) external;`.
@@ -40,9 +42,11 @@ Our `DelegationManager` implementation:
 3. Validates the signatures of offchain delegations.
 4. Checks if any of the delegations being redeemed are disabled
 5. Ensures each delegation has sufficient authority to execute, given by the previous delegation or by being a root delegation
-6. Calls `beforeHook` for all delegations (from leaf to root delegation)
-7. Executes the `Execution` provided
-8. Calls `afterHook` for all delegations (from root to leaf delegation)
+6. Calls `beforeAllHook` for all delegations before processing any of the executions (from leaf to root delegation)
+7. Calls `beforeHook` before each individual execution tied to a delegation (from leaf to root delegation)
+8. Performs the `Execution` provided
+9. Calls `afterHook` after each individual execution tied to a delegation (from root to leaf delegation)
+10. Calls `afterAllHook` for all delegations before processing all the executions (from root to leaf delegation)
 
 > NOTE: Ensure to double check that the delegation is valid before submitting a UserOp. A delegation can be revoked or a signature can be invalidated at any time.
 > Validate a delegation redemption by either simulating the transaction or by reading the storage on our implementation `disabledDelegations(delegationHash)`.
@@ -53,8 +57,4 @@ Example: Alice delegates to Bob the ability to transfer USDC, giving Bob the abi
 
 ## Caveats
 
-`CaveatEnforcer` contracts are used to place restrictions on Delegations. This allows dapps to craft very granular delegations that only allow actions to take place under specific circumstances.
-
-> NOTE: each `CaveatEnforcer` is called by the `DelegationManager` contract. This is important when storing data in the `CaveatEnforcer`, as `msg.sender` will always be the address of the `DelegationManager`.
-
-> NOTE: there is no guarantee that the action is executed. Keep this in mind when designing Caveat Enforcers. If you are relying on the action then be sure to use the `afterHook` method to validate any expected state updates.
+[Read about "Caveats Enforcers" ->](/documents/CaveatEnforcers.md)
