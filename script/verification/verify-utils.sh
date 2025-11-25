@@ -74,7 +74,7 @@ get_chain_config() {
         80069)    config=("$BERACHAIN_API_KEY" "custom" "$BERACHAIN_TESTNET_RPC_URL" "https://api-testnet.berascan.com/api") ;; # berachain-testnet
         130)      config=("$UNICHAIN_API_KEY" "custom" "$UNICHAIN_RPC_URL" "https://api.uniscan.xyz/api") ;; # unichain
         1301)     config=("$UNICHAIN_API_KEY" "custom" "$UNICHAIN_SEPOLIA_RPC_URL" "https://api-sepolia.uniscan.xyz/api") ;; # unichain-sepolia
-        10143)    config=("$ETHERSCAN_API_KEY" "etherscan" "$MONAD_TESTNET_RPC_URL" "") ;; # unichain-sepolia
+        10143)    config=("$ETHERSCAN_API_KEY" "etherscan" "$MONAD_TESTNET_RPC_URL" "") ;; # monad-testnet
         5115)     config=("key" "blockscout" "$CITREA_TESTNET_RPC_URL" "https://explorer.testnet.citrea.xyz/api") ;; # citrea-testnet
         57073)    config=("key" "blockscout" "$INK_RPC_URL" "https://explorer.inkonchain.com/api") ;; # ink
         763373)   config=("key" "blockscout" "$INK_SEPOLIA_RPC_URL" "https://explorer-sepolia.inkonchain.com/api") ;; # ink-sepolia
@@ -82,7 +82,7 @@ get_chain_config() {
         1328)     config=("key" "custom" "$SEI_TESTNET_RPC_URL" "https://seitrace.com/atlantic-2/api") ;; # sei-testnet
         146)      config=("$ETHERSCAN_API_KEY" "etherscan" "$SONIC_RPC_URL" "https://api.etherscan.io/v2/api?chainid=146") ;; # sonic
         14601)    config=("$ETHERSCAN_API_KEY" "etherscan" "$SONIC_TESTNET_RPC_URL" "https://api.etherscan.io/v2/api?chainid=14601") ;; # sonic-testnet
-        143)      config=("key" "sourcify" "$MONAD_RPC_URL" "https://sourcify-api-monad.blockvision.org") ;; # monad
+        143)      config=("key" "sourcify" "$MONAD_RPC_URL" "https://sourcify-api-monad.blockvision.org/") ;; # monad
         *)
             echo "Unknown chain ID: $chain_id" >&2
             return 1
@@ -145,7 +145,7 @@ verify_across_chains() {
       fi
 
       # Only add verifier-url if verifier is blockscout or custom
-      if [[ "$verifier" == "blockscout" ]] || [[ "$verifier" == "custom" ]]; then
+      if [[ "$verifier" == "blockscout" ]] || [[ "$verifier" == "custom" ]] || [[ "$verifier" == "sourcify" ]]; then
         cmd+=( --verifier-url "$verifier_url" )
       fi
 
