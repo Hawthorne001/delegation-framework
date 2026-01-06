@@ -96,17 +96,17 @@ add_contract \
     ""
 
 # DelegationMetaSwapAdapter
-# add_contract \
-#     "DelegationMetaSwapAdapter" \
-#     "src/helpers/DelegationMetaSwapAdapter.sol" \
-#     "0x9c06653D3f1A331eAf4C3833F7235156e47305F1" \
-#     "$(encode_args "constructor(address,address,address,address,address)" \
-#         "0xB0403B32f54d0Bd752113f4009e8B534C6669f44" \
-#         "0x533FbF047Ed13C20e263e2576e41c747206d1348" \
-#         "0xdb9B1e94B5b69Df7e401DDbedE43491141047dB3" \
-#         "0x1a1ec25DC08e98e5E93F1104B5e5cdD298707d31" \
-#         "0x44B8C6ae3C304213c3e298495e12497Ed3E56E41")" \
-#     ""
+add_contract \
+    "DelegationMetaSwapAdapter" \
+    "src/helpers/DelegationMetaSwapAdapter.sol" \
+    "0x9c06653D3f1A331eAf4C3833F7235156e47305F1" \
+    "$(encode_args "constructor(address,address,address,address,address)" \
+        "0xB0403B32f54d0Bd752113f4009e8B534C6669f44" \
+        "0x533FbF047Ed13C20e263e2576e41c747206d1348" \
+        "0xdb9B1e94B5b69Df7e401DDbedE43491141047dB3" \
+        "0x1a1ec25DC08e98e5E93F1104B5e5cdD298707d31" \
+        "0x44B8C6ae3C304213c3e298495e12497Ed3E56E41")" \
+    ""
 
 # SimpleFactory
 add_contract \
