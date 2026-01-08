@@ -47,6 +47,7 @@ bytes32 salt = bytes32(abi.encodePacked("GATOR"));
 - Sei
 - Sonic
 - Monad
+- Ronin
 
 ### Testnets
 
@@ -67,6 +68,7 @@ bytes32 salt = bytes32(abi.encodePacked("GATOR"));
 - Sei testnet
 - Sonic testnet
 - Hoodi
+- Ronin Saigon
 
 ## **Deployments**
 
