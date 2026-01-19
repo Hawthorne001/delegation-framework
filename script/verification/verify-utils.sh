@@ -40,6 +40,8 @@ CHAIN_IDS=(
   143        # monad
   4326       # megaeth
   6343       # megaeth-testnet
+  2021       # ronin saigon testnet
+  2020       # ronin
 )
 
 ##########################################
@@ -87,6 +89,8 @@ get_chain_config() {
         143)      config=("key" "sourcify" "$MONAD_RPC_URL" "https://sourcify-api-monad.blockvision.org/") ;; # monad
         4326)     config=("key" "blockscout" "$MEGA_ETH_RPC_URL" "https://megaeth.blockscout.com/api/") ;; # megaeth
         6343)     config=("key" "blockscout" "$MEGA_ETH_TESTNET_RPC_URL" "https://megaeth.blockscout.com/api/") ;; # megaeth-testnet
+        2021)     config=("key" "sourcify" "$RONIN_SAIGON_RPC_URL" "https://sourcify.dev/server/") ;; # ronin saigon testnet
+        2020)     config=("key" "sourcify" "$RONIN_RPC_URL" "https://sourcify.dev/server/v2/verify") ;; # ronin
         *)
             echo "Unknown chain ID: $chain_id" >&2
             return 1
