@@ -266,6 +266,18 @@ The Permit2 branches assume the canonical Uniswap-deployed Permit2 contract is a
 
 Delegators on chains without canonical Permit2 should NOT enable bits 3, 4, or 5.
 
+#### Incompatibility: ERC-20 Tokens That Revert on Zero-Value `approve`
+
+A small number of non-standard ERC-20 tokens — most notably **BNB on Ethereum mainnet**, and a handful of older tokens — revert when `approve(spender, 0)` is called. Because the ERC-20 branch of this enforcer strictly requires `amount == 0` and provides no alternative revocation primitive (e.g. `decreaseAllowance`), **allowances previously granted on such tokens cannot be revoked through this enforcer**: the executed `approve(spender, 0)` reverts inside the token contract.
+
+Implications for delegators:
+
+- Do not rely on a delegation carrying `ApprovalRevocationEnforcer` (bit `0x01`) to clear an outstanding allowance for one of these tokens.
+- Be aware before signing a **batch** that includes this enforcer for such a token — the entire batch will revert at the token call.
+- Revoke these allowances directly from the owning account (or via a different revocation path) instead.
+
+The ERC-721, `setApprovalForAll`, and Permit2 branches are unaffected.
+
 #### Use Cases
 
 - **Revocation bots / keepers**: Delegate to a third party that can proactively clean up stale or compromised approvals.

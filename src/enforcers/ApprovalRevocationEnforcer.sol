@@ -163,6 +163,15 @@ import { ModeCode } from "../utils/Types.sol";
  * @dev Delegators who want to restrict revocation to specific tokens should compose this enforcer with
  * `AllowedTargetsEnforcer`.
  *
+ * @dev INCOMPATIBILITY — ERC-20 tokens that revert on zero-value `approve`. A small number of non-standard
+ * ERC-20 tokens (notably BNB on Ethereum mainnet, and a handful of older tokens) revert when `approve(spender, 0)`
+ * is called. Because the ERC-20 branch of this enforcer strictly requires `amount == 0` and provides no alternative
+ * revocation primitive (e.g. `decreaseAllowance`), allowances previously granted on such tokens CANNOT be revoked
+ * through this enforcer — the executed `approve(spender, 0)` will revert inside the token contract. Delegators
+ * holding these tokens should revoke their allowances directly from the owning account (or via a different
+ * revocation path), and should be aware before signing a delegation or batch that includes this enforcer for
+ * such a token. The Permit2, ERC-721, and `setApprovalForAll` branches are unaffected.
+ *
  * @dev This enforcer operates only in single call type and default execution mode.
  */
 contract ApprovalRevocationEnforcer is CaveatEnforcer {
